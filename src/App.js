@@ -1,11 +1,14 @@
-import './App.css';
+import './styles/App.css';
+import Message from './Message';
 
-function App(props) {
+function App() {
+  const name = 'Sergey';
+
   return (
     <div className="App">
       <header className="App-header">
         My First React App
-        <h3>Hello world!</h3>
+        <Message name={name}></Message>
       </header>
     </div>
   );
