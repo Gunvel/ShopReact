@@ -6,11 +6,23 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        My First React App
-        <Message name={name}></Message>
-      </header>
-    </div>
+      <main className='App-content'>
+        <div className='b-chat'>
+          <div className='b-chat__header'>
+            CHAT
+          </div>
+
+          <div className='b-chat__window'>
+
+          </div>
+
+          <div className='b-chat__form'>
+            <input />
+            <button >Отправить</button>
+          </div>
+        </div>
+      </main>
+    </div >
   );
 }
 
