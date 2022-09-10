@@ -54,4 +54,33 @@
   grid-template-columns: 1fr auto;
   gap: 10px;
   padding: 20px 16px;
+}
+.b-chat__form > textarea {
+  height: 50px;
+  border-radius: 5px;
+  outline: none;
+  resize: none;
+  font-size: 16px;
+  font-family: inherit;
+  padding: 5px 16px;
+  box-sizing: border-box;
+  border: 2px solid white;
+}
+.b-chat__form > textarea:focus {
+  border-color: rgba(54, 102, 246, 0.4039215686);
+}
+.b-chat__form > button {
+  height: 50px;
+  width: 50px;
+  display: flex;
+  border: none;
+  outline: none;
+  fill: white;
+  color: black;
+  padding: 0;
+  margin: 0;
+  background: none;
+}
+.b-chat__form > button:hover {
+  fill: rgba(54, 102, 246, 0.4039215686);
 }/*# sourceMappingURL=App.css.map */

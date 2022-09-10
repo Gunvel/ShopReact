@@ -1,27 +1,14 @@
-import './styles/App.css';
-import Message from './Message';
+import './assets/styles/App.css';
+import Chat from './Chat';
+
 
 function App() {
-  const name = 'Sergey';
+  const login = 'Sergey';
 
   return (
     <div className="App">
       <main className='App-content'>
-        <div className='b-chat'>
-          <div className='b-chat__header'>
-            <div className='b-chat__title'>CHAT</div>
-            <div className='b-chat__login'>Login: {name}</div>
-          </div>
-
-          <div className='b-chat__window'>
-
-          </div>
-
-          <div className='b-chat__form'>
-            <input />
-            <button >Отправить</button>
-          </div>
-        </div>
+        <Chat login={login} />
       </main>
     </div >
   );

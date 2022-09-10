@@ -44,5 +44,38 @@
         grid-template-columns: 1fr auto;
         gap: 10px;
         padding: 20px 16px;
+
+        &>textarea {
+            height: 50px;
+            border-radius: 5px;
+            outline: none;
+            resize: none;
+            font-size: 16px;
+            font-family: inherit;
+            padding: 5px 16px;
+            box-sizing: border-box;
+            border: 2px solid white;
+
+            &:focus {
+                border-color: #3666f667;
+            }
+        }
+
+        &>button {
+            height: 50px;
+            width: 50px;
+            display: flex;
+            border: none;
+            outline: none;
+            fill: white;
+            color: black;
+            padding: 0;
+            margin: 0;
+            background: none;
+
+            &:hover {
+                fill: #3666f667;
+            }
+        }
     }
 }
