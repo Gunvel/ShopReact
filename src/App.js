@@ -9,7 +9,8 @@ function App() {
       <main className='App-content'>
         <div className='b-chat'>
           <div className='b-chat__header'>
-            CHAT
+            <div className='b-chat__title'>CHAT</div>
+            <div className='b-chat__login'>Login: {name}</div>
           </div>
 
           <div className='b-chat__window'>

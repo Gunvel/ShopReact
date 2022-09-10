@@ -1,0 +1,48 @@
+.b-chat {
+    max-width: 900px;
+    /* max-height: 900px; */
+    margin: auto;
+    height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    border-radius: 5px;
+    background: #494f5e;
+
+    &__header {
+        padding: 10px 16px;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+    }
+
+    &__title {
+        font-size: 24px;
+        color: white;
+        position: absolute;
+        left: 16px;
+    }
+
+    &__login {
+        font-size: 24px;
+        color: white;
+        margin: auto;
+    }
+
+    &__window {
+        padding: 10px;
+        box-sizing: border-box;
+        background: #282c349a;
+        // background-color: #282c34;
+        display: flex;
+    }
+
+    &__form {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 10px;
+        padding: 20px 16px;
+    }
+}
