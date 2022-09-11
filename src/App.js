@@ -1,16 +1,16 @@
-import './styles/App.css';
-import Message from './Message';
+import './assets/styles/App.css';
+import Chat from './Chat';
+
 
 function App() {
-  const name = 'Sergey';
+  const login = 'Sergey';
 
   return (
     <div className="App">
-      <header className="App-header">
-        My First React App
-        <Message name={name}></Message>
-      </header>
-    </div>
+      <main className='App-content'>
+        <Chat login={login} />
+      </main>
+    </div >
   );
 }
 
