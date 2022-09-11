@@ -1,14 +1,105 @@
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
+import MessageItem from "./MessageItem";
+import Message from "./Message";
 
+
+/**
+ * Компонент чата
+ * @param {object} param0 Объект пропертей компонента
+ * @returns Компонент чата
+ */
 function Chat({ login }) {
-    const refForm = useRef();
+    /**
+     * Имя робота отвечающего на сообщение пользователя
+     */
+    const botName = 'ROBOT';
+    /**
+     * Сообщение робота отвечающего на сообщение пользователя
+     */
+    const botMessage = 'I`m Robot. Hello World!';
+    /**
+     * Задержка перед ответом робота
+     */
+    const delaySendMS = 1500;
 
-    let keyPress = (event) => {
+    /**
+     * Ссылка на форму
+     */
+    const refForm = useRef();
+    /**
+     * Сслыка на окно с сообщения (для сдвига скрола)
+     */
+    const refWindow = useRef();
+    /**
+     * Состояние списка сообщений
+     */
+    const [messageList, setMessageList] = useState([]);
+    /**
+     * Состояние вводимого текста
+     */
+    const [textState, setTextState] = useState('');
+
+    /**
+     * Эффекты при изменении списка сообщений
+     */
+    useEffect(() => {
+        refWindow.current.scrollTop = refWindow.current.scrollHeight;
+
+        if (messageList.length > 0 && messageList[messageList.length - 1].author === login) {
+            let timeoutId = setTimeout(() => {
+                sendMessage(botName, botMessage);
+            }, delaySendMS);
+
+            return () => clearTimeout(timeoutId);
+        }
+    }, [messageList]);
+
+    /**
+     * Обработчик вызывающий submit при нажатии Enter в textarea
+     * @param {KeyboardEvent} event Аргумент события нажатия клавиши
+     */
+    const keyPress = (event) => {
         if (event.which === 13 && !event.shiftKey) {
             event.preventDefault();
 
-            refForm.current.closest("form").submit();
+            refForm.current.requestSubmit();
         }
+    };
+
+    /**
+     * Обработчик submit формы
+     * @param {SubmitEvent} event Аргумент события submit формы
+     */
+    const formSubmit = (event) => {
+        event.preventDefault();
+
+        if (sendMessage(login, textState)) {
+            setTextState('');
+        }
+    };
+
+    /**
+     * Обработчик события изменения текста в поле ввода
+     * @param {Event} event Аргумент события изменения текста
+     */
+    const textChange = (event) => {
+        setTextState(event.target.value);
+    }
+
+    /**
+     * Функция отправки сообщения
+     * @param {string} author Автор сообщения
+     * @param {string} message Сообщение
+     * @returns true - если сообщение отправлено, false - иначе
+     */
+    const sendMessage = (author, message) => {
+        if (message && message.length > 0 && message.trim()) {
+            let mess = new Message(author, message);
+            setMessageList(prevState => [...prevState, mess]);
+            return true;
+        }
+
+        return false;
     };
 
     return (
@@ -18,12 +109,18 @@ function Chat({ login }) {
                 <div className='b-chat__login'>Login: {login}</div>
             </div>
 
-            <div className='b-chat__window'>
-
+            <div className='b-chat__window' ref={refWindow}>
+                {messageList.map(
+                    mess =>
+                        <MessageItem
+                            key={mess.id}
+                            author={mess.author}
+                            message={mess.message}
+                            currentAuthor={login === mess.author} />)}
             </div>
 
-            <form className='b-chat__form' ref={refForm}>
-                <textarea autoFocus placeholder="Введите сообщение..." onKeyPress={keyPress} />
+            <form className='b-chat__form' ref={refForm} onSubmit={formSubmit}>
+                <textarea autoFocus placeholder="Введите сообщение..." value={textState} onKeyPress={keyPress} onChange={textChange} />
                 <button>
                     <svg version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 511.763 511.763">
                         <path d="M511.716,9.802c-0.107-0.853-0.213-1.707-0.533-2.56c-0.107-0.32-0.213-0.747-0.32-1.067
