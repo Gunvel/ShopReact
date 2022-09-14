@@ -1,47 +1,37 @@
-import * as React from 'react';
+import React, { useState } from "react";
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
 import Button from '@mui/material/Button';
-import Badge from '@mui/material/Badge';
-import MailIcon from '@mui/icons-material/Mail';
+import Typography from '@mui/material/Typography';
+import Chat from "./Chat";
+import ChatItem from "./ChatItem";
 
+/**
+ * Компонент списка чатов
+ * @returns Компонент чата
+ */
 function ChatList() {
+    /**
+     * Состояние списка чатов
+     */
+    const [chats, setСhats] = useState([
+        new Chat('Chat with Ivan'),
+        new Chat('Custom chat'),
+        new Chat('Party time'),
+        new Chat('Super CHAT')
+    ]);
+
     return (
-        <Box component='span'
-            sx={{
-                position: 'absolute',
-                top: '10px',
-                left: '10px',
-                bottom: '10px'
-            }}>
-            <Button color='primary' variant="contained" sx={{
-                marginBottom: '20px'
-            }}>
-                Добавить чат
+        <Box component='span' sx={{ width: '200px' }}>
+            <Button color='primary' variant="contained" sx={{ marginBottom: '20px' }}>
+                <Typography variant="h7">
+                    Add chat
+                </Typography>
             </Button>
 
-            <List
-                sx={{ width: '100%' }}
-                component="nav">
-                <ListItemButton>
-                    <ListItemIcon>
-                        <Badge badgeContent={10} color="primary">
-                            <MailIcon color="action" />
-                        </Badge>
-                    </ListItemIcon>
-                    <ListItemText primary="Чат 1" />
-                </ListItemButton>
-                <ListItemButton>
-                    <ListItemIcon>
-                        <Badge badgeContent={10} color="primary">
-                            <MailIcon color="action" />
-                        </Badge>
-                    </ListItemIcon>
-                    <ListItemText primary="Чат 2" />
-                </ListItemButton>
+            <List sx={{ width: '100%' }} component="nav">
+                {chats.map(
+                    ch => <ChatItem key={ch.id} chatName={ch.chatName} messageCount={ch.messageCount} />)}
             </List>
         </Box>
     );
