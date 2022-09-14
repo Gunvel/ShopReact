@@ -1,15 +1,11 @@
 import React, { useRef, useState, useEffect } from "react";
-import Box from '@mui/material/Box';
-import AppBar from '@mui/material/AppBar';
-import Typography from '@mui/material/Typography';
-import Toolbar from '@mui/material/Toolbar';
-import MessageItem from "./MessageItem";
-import Message from "./Message";
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import SendIcon from '@mui/icons-material/Send';
+import { Box, Typography, TextField, Button, Stack } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
-import Stack from '@mui/material/Stack';
+import SendIcon from '@mui/icons-material/Send';
+import MessageItem from "./MessageItem";
+import Message from "../object/Message";
+import { Header } from './style';
+
 
 
 /**
@@ -88,7 +84,7 @@ function Messanger({ chatName, login }) {
 
         if (sendMessage(login, textState)) {
             setTextState('');
-            setFocus();
+            setInputFocus();
         }
     };
 
@@ -119,7 +115,7 @@ function Messanger({ chatName, login }) {
     /**
      * Добавление фокуса полю ввода при отправки сообщения
      */
-    const setFocus = () => {
+    const setInputFocus = () => {
         refInput.current.focus();
     };
 
@@ -132,19 +128,15 @@ function Messanger({ chatName, login }) {
             gridTemplateRows: 'auto 1fr auto',
             borderRadius: 1
         }}>
-            <AppBar position="static">
-                <Toolbar variant="dense" sx={{ gap: '20px' }}>
-                    <Typography variant="h6" sx={{ my: 2 }}>
-                        {chatName}
-                    </Typography>
-                    <Box sx={{ flexGrow: 1 }} />
-                    <Typography variant="h6" sx={{ my: 2 }}>
-                        Login: {login}
-                    </Typography>
-                </Toolbar>
-            </AppBar>
+            <Header>
+                <Typography variant="h6" sx={{
+                    alignSelf: 'center'
+                }}>
+                    {chatName}
+                </Typography>
+            </Header>
 
-            <Stack spacing={1} ref={refWindow} overflow='auto' paddingTop={1}>
+            <Stack spacing={1} ref={refWindow} overflow='auto' paddingTop={1} paddingLeft={2} paddingRight={2}>
                 {messageList.map(
                     mess =>
                         <MessageItem
@@ -156,7 +148,7 @@ function Messanger({ chatName, login }) {
 
             <Box>
                 <form ref={refForm} onSubmit={formSubmit}>
-                    <Grid container paddingTop={2} paddingBottom={2} spacing={1}>
+                    <Grid container paddingTop={2} paddingBottom={2} spacing={1} paddingLeft={2} paddingRight={2}>
                         <Grid xs>
                             <TextField inputRef={refInput} label="Сообщение" placeholder="Введите сообщение..." color="primary" autoFocus maxRows={2} value={textState} multiline onKeyDown={keyPress} onChange={textChange} sx={{ width: '100%' }} />
                         </Grid>

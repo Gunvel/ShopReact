@@ -1,8 +1,5 @@
 import React from "react";
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import Badge from '@mui/material/Badge';
+import { ListItemButton, ListItemIcon, ListItemText, Badge } from '@mui/material';
 import MailIcon from '@mui/icons-material/Mail';
 
 function ChatItem({ chatName, messageCount }) {

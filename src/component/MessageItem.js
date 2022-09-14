@@ -1,6 +1,5 @@
 import React from "react";
-import Typography from '@mui/material/Typography';
-import Stack from '@mui/material/Stack';
+import { Typography, Stack } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 const MessageContainer = styled(Stack)(({ theme, left = false }) => ({
