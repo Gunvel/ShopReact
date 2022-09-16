@@ -1,11 +1,10 @@
 import React, { useRef, useState, useEffect } from "react";
-import { Box, Typography, TextField, Button, Stack } from '@mui/material';
+import { Typography, TextField, Button } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import SendIcon from '@mui/icons-material/Send';
 import MessageItem from "./MessageItem";
 import Message from "../object/Message";
-import { Header } from './style';
-
+import { MessagerContainer, Header, TitleText, MessagesStack } from './stylized';
 
 
 /**
@@ -120,23 +119,12 @@ function Messanger({ chatName, login }) {
     };
 
     return (
-        <Box component="span" mx='auto' my={0} sx={{
-            maxWidth: 900,
-            width: '100%',
-            height: '100%',
-            display: 'grid',
-            gridTemplateRows: 'auto 1fr auto',
-            borderRadius: 1
-        }}>
+        <MessagerContainer>
             <Header>
-                <Typography variant="h6" sx={{
-                    alignSelf: 'center'
-                }}>
-                    {chatName}
-                </Typography>
+                <TitleText> {chatName} </TitleText>
             </Header>
 
-            <Stack spacing={1} ref={refWindow} overflow='auto' paddingTop={1} paddingLeft={2} paddingRight={2}>
+            <MessagesStack ref={refWindow}>
                 {messageList.map(
                     mess =>
                         <MessageItem
@@ -144,29 +132,25 @@ function Messanger({ chatName, login }) {
                             author={mess.author}
                             message={mess.message}
                             currentAuthor={login === mess.author} />)}
-            </Stack>
+            </MessagesStack>
 
-            <Box>
-                <form ref={refForm} onSubmit={formSubmit}>
-                    <Grid container paddingTop={2} paddingBottom={2} spacing={1} paddingLeft={2} paddingRight={2}>
-                        <Grid xs>
-                            <TextField inputRef={refInput} label="Сообщение" placeholder="Введите сообщение..." color="primary" autoFocus maxRows={2} value={textState} multiline onKeyDown={keyPress} onChange={textChange} sx={{ width: '100%' }} />
-                        </Grid>
-
-                        <Grid xs="auto" display="flex" justifyContent="center" alignItems="center">
-                            <Button type="submit" color="primary" variant="contained" endIcon={<SendIcon />} sx={{ width: '100%', height: '100%' }}>
-                                <Typography variant="h7">
-                                    Send
-                                </Typography>
-                            </Button>
-                        </Grid>
-
+            <form ref={refForm} onSubmit={formSubmit}>
+                <Grid container paddingTop={2} paddingBottom={2} spacing={1} paddingLeft={2} paddingRight={2}>
+                    <Grid xs>
+                        <TextField inputRef={refInput} label="Сообщение" placeholder="Введите сообщение..." color="primary" autoFocus maxRows={2} value={textState} multiline onKeyDown={keyPress} onChange={textChange} sx={{ width: '100%' }} />
                     </Grid>
-                </form>
-            </Box>
 
-        </Box>
+                    <Grid xs="auto" display="flex" justifyContent="center" alignItems="center">
+                        <Button type="submit" color="primary" variant="contained" endIcon={<SendIcon />} sx={{ width: '100%', height: '100%' }}>
+                            <Typography variant="h7">
+                                Send
+                            </Typography>
+                        </Button>
+                    </Grid>
 
+                </Grid>
+            </form>
+        </MessagerContainer>
     );
 }
 

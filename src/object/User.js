@@ -12,7 +12,9 @@ class User {
      */
     constructor(name) {
         this.id = User._currentId++;
-        this.name = name;
+
+        let userName = name && name.trim() && name.length > 0 ? name : 'User' + this.id; //Если переданно пустое имя, то будет записано UserID
+        this.name = userName;
     }
 }
 
