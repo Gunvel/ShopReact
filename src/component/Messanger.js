@@ -1,18 +1,18 @@
 import React, { useRef, useState, useEffect } from "react";
-import { Typography, TextField, Button } from '@mui/material';
+import { Typography, Button } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import SendIcon from '@mui/icons-material/Send';
 import MessageItem from "./MessageItem";
 import Message from "../object/Message";
-import { MessagerContainer, Header, TitleText, MessagesStack } from './stylized';
-
+import { MessagerContainer, Header, TitleText, MessagesStack, TextFieldComplited } from './stylized';
+import { useParams } from 'react-router-dom';
 
 /**
  * Компонент чата
  * @param {object} param0 Объект пропертей компонента
  * @returns Компонент чата
  */
-function Messanger({ chatName, login }) {
+function Messanger() {
     /**
      * Имя робота отвечающего на сообщение пользователя
      */
@@ -48,12 +48,17 @@ function Messanger({ chatName, login }) {
     const [textState, setTextState] = useState('');
 
     /**
+     * Параметры строки запроса
+     */
+    const pr = useParams();
+
+    /**
      * Эффекты при изменении списка сообщений
      */
     useEffect(() => {
         refWindow.current.scrollTop = refWindow.current.scrollHeight;
 
-        if (messageList.length > 0 && messageList[messageList.length - 1].author === login) {
+        if (messageList.length > 0 && messageList[messageList.length - 1].author === pr.login) {
             let timeoutId = setTimeout(() => {
                 sendMessage(botName, botMessage);
             }, delaySendMS);
@@ -63,27 +68,15 @@ function Messanger({ chatName, login }) {
     }, [messageList]);
 
     /**
-     * Обработчик вызывающий submit при нажатии Enter в textarea
-     * @param {KeyboardEvent} event Аргумент события нажатия клавиши
-     */
-    const keyPress = (event) => {
-        if (event.which === 13 && !event.shiftKey) {
-            event.preventDefault();
-
-            refForm.current.requestSubmit();
-        }
-    };
-
-    /**
      * Обработчик submit формы
      * @param {SubmitEvent} event Аргумент события submit формы
      */
     const formSubmit = (event) => {
         event.preventDefault();
 
-        if (sendMessage(login, textState)) {
+        if (sendMessage(pr.login, textState)) {
             setTextState('');
-            setInputFocus();
+            setInputFocus(refInput.current);
         }
     };
 
@@ -114,14 +107,14 @@ function Messanger({ chatName, login }) {
     /**
      * Добавление фокуса полю ввода при отправки сообщения
      */
-    const setInputFocus = () => {
-        refInput.current.focus();
+    const setInputFocus = (input) => {
+        input.focus();
     };
 
     return (
         <MessagerContainer>
             <Header>
-                <TitleText> {chatName} </TitleText>
+                <TitleText> {pr.chatName} </TitleText>
             </Header>
 
             <MessagesStack ref={refWindow}>
@@ -131,13 +124,24 @@ function Messanger({ chatName, login }) {
                             key={mess.id}
                             author={mess.author}
                             message={mess.message}
-                            currentAuthor={login === mess.author} />)}
+                            currentAuthor={pr.login === mess.author} />)}
             </MessagesStack>
 
             <form ref={refForm} onSubmit={formSubmit}>
                 <Grid container paddingTop={2} paddingBottom={2} spacing={1} paddingLeft={2} paddingRight={2}>
                     <Grid xs>
-                        <TextField inputRef={refInput} label="Сообщение" placeholder="Введите сообщение..." color="primary" autoFocus maxRows={2} value={textState} multiline onKeyDown={keyPress} onChange={textChange} sx={{ width: '100%' }} />
+                        <TextFieldComplited
+                            inputRef={refInput}
+                            label="Message"
+                            placeholder="Text a message"
+                            color="primary"
+                            autoFocus
+                            maxRows={2}
+                            value={textState}
+                            multiline
+                            onChange={textChange}
+                            sx={{ width: '100%' }}
+                            onComplete={() => refForm.current.requestSubmit()} />
                     </Grid>
 
                     <Grid xs="auto" display="flex" justifyContent="center" alignItems="center">

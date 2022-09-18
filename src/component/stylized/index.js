@@ -12,6 +12,7 @@ import MessagesStack from './MessagesStack';
 import MessageContainer from './MessageContainer';
 import MessageAuthor from './MessageAuthor';
 import MessageText from './MessageText';
+import TextFieldComplited from "./TextFieldComplited";
 
 export {
     Theme,
@@ -27,5 +28,6 @@ export {
     MessagesStack,
     MessageContainer,
     MessageAuthor,
-    MessageText
+    MessageText,
+    TextFieldComplited
 }

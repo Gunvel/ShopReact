@@ -2,13 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { App } from './component';
 import reportWebVitals from './reportWebVitals';
+import { BrowserRouter } from 'react-router-dom'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
-  <React.StrictMode>
+  <BrowserRouter>
+    {/* <React.StrictMode>  Не дает выставлять autoFocus для TextField в модальном окне (https://github.com/mui/material-ui/issues/33004) */}
     <App />
-  </React.StrictMode>
+    {/* </React.StrictMode> */}
+  </BrowserRouter >
 );
 
 // If you want to start measuring performance in your app, pass a function
