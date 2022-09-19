@@ -1,23 +1,18 @@
 import React, { useRef, useState, useEffect } from "react";
-import Box from '@mui/material/Box';
-import AppBar from '@mui/material/AppBar';
-import Typography from '@mui/material/Typography';
-import Toolbar from '@mui/material/Toolbar';
-import MessageItem from "./MessageItem";
-import Message from "./Message";
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import SendIcon from '@mui/icons-material/Send';
+import { Typography, Button } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
-import Stack from '@mui/material/Stack';
-
+import SendIcon from '@mui/icons-material/Send';
+import MessageItem from "./MessageItem";
+import Message from "../object/Message";
+import { MessagerContainer, Header, TitleText, MessagesStack, TextFieldComplited } from './stylized';
+import { useParams } from 'react-router-dom';
 
 /**
  * Компонент чата
  * @param {object} param0 Объект пропертей компонента
  * @returns Компонент чата
  */
-function Messanger({ chatName, login }) {
+function Messanger() {
     /**
      * Имя робота отвечающего на сообщение пользователя
      */
@@ -53,12 +48,17 @@ function Messanger({ chatName, login }) {
     const [textState, setTextState] = useState('');
 
     /**
+     * Параметры строки запроса
+     */
+    const pr = useParams();
+
+    /**
      * Эффекты при изменении списка сообщений
      */
     useEffect(() => {
         refWindow.current.scrollTop = refWindow.current.scrollHeight;
 
-        if (messageList.length > 0 && messageList[messageList.length - 1].author === login) {
+        if (messageList.length > 0 && messageList[messageList.length - 1].author === pr.login) {
             let timeoutId = setTimeout(() => {
                 sendMessage(botName, botMessage);
             }, delaySendMS);
@@ -68,27 +68,15 @@ function Messanger({ chatName, login }) {
     }, [messageList]);
 
     /**
-     * Обработчик вызывающий submit при нажатии Enter в textarea
-     * @param {KeyboardEvent} event Аргумент события нажатия клавиши
-     */
-    const keyPress = (event) => {
-        if (event.which === 13 && !event.shiftKey) {
-            event.preventDefault();
-
-            refForm.current.requestSubmit();
-        }
-    };
-
-    /**
      * Обработчик submit формы
      * @param {SubmitEvent} event Аргумент события submit формы
      */
     const formSubmit = (event) => {
         event.preventDefault();
 
-        if (sendMessage(login, textState)) {
+        if (sendMessage(pr.login, textState)) {
             setTextState('');
-            setFocus();
+            setInputFocus(refInput.current);
         }
     };
 
@@ -119,62 +107,54 @@ function Messanger({ chatName, login }) {
     /**
      * Добавление фокуса полю ввода при отправки сообщения
      */
-    const setFocus = () => {
-        refInput.current.focus();
+    const setInputFocus = (input) => {
+        input.focus();
     };
 
     return (
-        <Box component="span" mx='auto' my={0} sx={{
-            maxWidth: 900,
-            width: '100%',
-            height: '100%',
-            display: 'grid',
-            gridTemplateRows: 'auto 1fr auto',
-            borderRadius: 1
-        }}>
-            <AppBar position="static">
-                <Toolbar variant="dense" sx={{ gap: '20px' }}>
-                    <Typography variant="h6" sx={{ my: 2 }}>
-                        {chatName}
-                    </Typography>
-                    <Box sx={{ flexGrow: 1 }} />
-                    <Typography variant="h6" sx={{ my: 2 }}>
-                        Login: {login}
-                    </Typography>
-                </Toolbar>
-            </AppBar>
+        <MessagerContainer>
+            <Header>
+                <TitleText> {pr.chatName} </TitleText>
+            </Header>
 
-            <Stack spacing={1} ref={refWindow} overflow='auto' paddingTop={1}>
+            <MessagesStack ref={refWindow}>
                 {messageList.map(
                     mess =>
                         <MessageItem
                             key={mess.id}
                             author={mess.author}
                             message={mess.message}
-                            currentAuthor={login === mess.author} />)}
-            </Stack>
+                            currentAuthor={pr.login === mess.author} />)}
+            </MessagesStack>
 
-            <Box>
-                <form ref={refForm} onSubmit={formSubmit}>
-                    <Grid container paddingTop={2} paddingBottom={2} spacing={1}>
-                        <Grid xs>
-                            <TextField inputRef={refInput} label="Сообщение" placeholder="Введите сообщение..." color="primary" autoFocus maxRows={2} value={textState} multiline onKeyDown={keyPress} onChange={textChange} sx={{ width: '100%' }} />
-                        </Grid>
-
-                        <Grid xs="auto" display="flex" justifyContent="center" alignItems="center">
-                            <Button type="submit" color="primary" variant="contained" endIcon={<SendIcon />} sx={{ width: '100%', height: '100%' }}>
-                                <Typography variant="h7">
-                                    Send
-                                </Typography>
-                            </Button>
-                        </Grid>
-
+            <form ref={refForm} onSubmit={formSubmit}>
+                <Grid container paddingTop={2} paddingBottom={2} spacing={1} paddingLeft={2} paddingRight={2}>
+                    <Grid xs>
+                        <TextFieldComplited
+                            inputRef={refInput}
+                            label="Message"
+                            placeholder="Text a message"
+                            color="primary"
+                            autoFocus
+                            maxRows={2}
+                            value={textState}
+                            multiline
+                            onChange={textChange}
+                            sx={{ width: '100%' }}
+                            onComplete={() => refForm.current.requestSubmit()} />
                     </Grid>
-                </form>
-            </Box>
 
-        </Box>
+                    <Grid xs="auto" display="flex" justifyContent="center" alignItems="center">
+                        <Button type="submit" color="primary" variant="contained" endIcon={<SendIcon />} sx={{ width: '100%', height: '100%' }}>
+                            <Typography variant="h7">
+                                Send
+                            </Typography>
+                        </Button>
+                    </Grid>
 
+                </Grid>
+            </form>
+        </MessagerContainer>
     );
 }
 
