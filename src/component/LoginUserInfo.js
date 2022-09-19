@@ -62,9 +62,12 @@ function stringAvatar(name) {
  * @returns Компонент логина пользователя
  */
 function LoginUserInfo({ login }) {
+    /**
+     * Локация приложения
+     */
     const location = useLocation();
     /**
-     * Функция новигации
+     * Функция навигации
      */
     const navigate = useNavigate();
 
