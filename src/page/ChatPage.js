@@ -1,9 +1,7 @@
 import * as React from 'react';
-import Messanger from './Messanger';
-import ChatList from './ChatList';
-import LoginUserInfo from "./LoginUserInfo";
+import { Messanger, ChatList, LoginUserInfo } from '../component';
 import User from '../object/User';
-import { ContentContainer, UserChatListContainer, Header } from './stylized';
+import { ContentContainer, UserChatListContainer, Header } from '../component/stylized';
 import { Routes, Route, Outlet } from 'react-router-dom';
 
 function ChatPage() {
@@ -23,9 +21,9 @@ function ChatPage() {
                     <Outlet />
                 </ContentContainer>
             }>
-                <Route index element={ <div>Выберите чат</div> } />
+                <Route index element={<div>Выберите чат</div>} />
                 <Route path={'/:chatName/:login'} element={<Messanger />} />
-                <Route path={'*'} element={  <div>Чат не найден</div> } />
+                <Route path={'*'} element={<div>Чат не найден</div>} />
             </Route>
         </Routes >
     );

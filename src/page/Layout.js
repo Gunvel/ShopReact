@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { AppContainer } from './stylized';
+import { AppContainer } from '../component/stylized';
 import { Outlet } from 'react-router-dom';
 
 /**
@@ -9,7 +9,7 @@ import { Outlet } from 'react-router-dom';
 function Layout() {
     return (
         <AppContainer>
-            <Outlet/>
+            <Outlet />
         </AppContainer>
     );
 }

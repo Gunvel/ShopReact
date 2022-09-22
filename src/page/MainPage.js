@@ -9,6 +9,7 @@ function MainPage() {
         <Stack>
             <Link to={"/m/profile"} state={{ background: location }}>Профиль пользователя</Link>
             <Link to={"/chat"}>Перейти к чатам</Link>
+            <Link to={"/counter"}>Перейти к счетчикам</Link>
         </Stack>
     );
 }
