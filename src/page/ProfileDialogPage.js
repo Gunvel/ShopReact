@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom"
  * @param {any} param0 пропсы компонента
  * @returns Компонент профиля
  */
-function ProfileDialog() {
+function ProfileDialogPage() {
     const navigate = useNavigate();
     const back = () => {
         navigate(-1);
@@ -29,4 +29,4 @@ function ProfileDialog() {
     );
 };
 
-export default ProfileDialog;
+export default ProfileDialogPage;

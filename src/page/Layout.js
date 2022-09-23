@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { AppContainer } from './stylized';
-import { Outlet } from 'react-router-dom'
+import { AppContainer } from '../component/stylized';
+import { Outlet } from 'react-router-dom';
 
 /**
  * Фон приложения

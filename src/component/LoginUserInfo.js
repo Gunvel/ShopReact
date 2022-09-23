@@ -1,7 +1,7 @@
 import React from "react";
 import { Avatar } from '@mui/material';
 import { LoginButton, TitleText } from './stylized';
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation, Link } from 'react-router-dom'
 
 /**
  * Преобразует текст в цвет
@@ -63,12 +63,26 @@ function stringAvatar(name) {
  */
 function LoginUserInfo({ login }) {
     /**
-     * Функция новигации
+     * Локация приложения
+     */
+    const location = useLocation();
+    /**
+     * Функция навигации
      */
     const navigate = useNavigate();
 
+    /**
+     * Обработчик открытия профиля
+     */
+    const openProfile = () => {
+        navigate('/m/profile', {
+            state: {
+                background: location
+            }
+        });
+    };
     return (
-        <LoginButton startIcon={<Avatar {...stringAvatar(login)} />} onClick={() => navigate('profile')}>
+        <LoginButton startIcon={<Avatar {...stringAvatar(login)} />} onClick={() => openProfile()}>
             <TitleText>{login}</TitleText>
         </LoginButton>
     );

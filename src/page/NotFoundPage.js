@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
  * Компонент не найденной страницы
  * @returns Компонент не найденной страницы
  */
-function PageNotFound() {
+function NotFoundPage() {
     const navigate = useNavigate();
 
     return (
@@ -21,4 +21,4 @@ function PageNotFound() {
     );
 };
 
-export default PageNotFound;
+export default NotFoundPage;
