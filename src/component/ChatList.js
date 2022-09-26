@@ -9,12 +9,18 @@ import { ChatListContainer, ListChats } from './stylized';
 import { useSelector, useDispatch } from "react-redux";
 import { ADD_CHAT, REMOVE_CHAT } from "../store/actionType";
 import { chatsSelector } from "../store/reducer/chatsReducer/chatsSelector";
+import { useNavigate } from "react-router-dom";
 
 /**
  * Компонент списка чатов
  * @returns Компонент чата
  */
 function ChatList() {
+    /**
+     * Функция навигации
+     */
+    const navigate = useNavigate();
+
     /**
      * Список чатов
      */
@@ -60,6 +66,7 @@ function ChatList() {
         });
 
         setAddDialogView(false);
+        navigate(`${newChat.id}`);
     };
 
     const cancelAddChat = () => {
@@ -74,7 +81,10 @@ function ChatList() {
     const removeChat = () => {
         dispatch({
             type: REMOVE_CHAT,
-            payload: chatToDelete.id
+            payload: chatToDelete.id,
+            meta: {
+                delayMS: 3000
+            }
         });
 
         setRemoveDialogView(false);

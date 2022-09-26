@@ -4,17 +4,20 @@ import { App } from './component';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { store } from './store/configureStore';
+import { store, persistor } from './store/configureStore';
+import { PersistGate } from 'redux-persist/integration/react';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
   <Provider store={store}>
-    <Router>
-      {/* <React.StrictMode>  Не дает выставлять autoFocus для TextField в модальном окне (https://github.com/mui/material-ui/issues/33004) */}
-      <App />
-      {/* </React.StrictMode> */}
-    </Router >
+    <PersistGate loading={null} persistor={persistor}>
+      <Router>
+        {/* <React.StrictMode>  Не дает выставлять autoFocus для TextField в модальном окне (https://github.com/mui/material-ui/issues/33004) */}
+        <App />
+        {/* </React.StrictMode> */}
+      </Router >
+    </PersistGate>
   </Provider>
 
 );
