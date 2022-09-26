@@ -1,7 +1,9 @@
 import React from "react";
 import { Avatar } from '@mui/material';
 import { LoginButton, TitleText } from './stylized';
-import { useNavigate, useLocation, Link } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
+import { useSelector } from "react-redux";
+import { userSelector } from "../store/reducer/userReducer/userSelector";
 
 /**
  * Преобразует текст в цвет
@@ -61,11 +63,17 @@ function stringAvatar(name) {
  * @param {any} param0 Пропсы компонента
  * @returns Компонент логина пользователя
  */
-function LoginUserInfo({ login }) {
+function LoginUserInfo() {
+    /**
+     * Пользователь
+     */
+    const user = useSelector(userSelector);
+
     /**
      * Локация приложения
      */
     const location = useLocation();
+
     /**
      * Функция навигации
      */
@@ -81,9 +89,10 @@ function LoginUserInfo({ login }) {
             }
         });
     };
+
     return (
-        <LoginButton startIcon={<Avatar {...stringAvatar(login)} />} onClick={() => openProfile()}>
-            <TitleText>{login}</TitleText>
+        <LoginButton startIcon={<Avatar {...stringAvatar(user.name)} />} onClick={() => openProfile()}>
+            <TitleText>{user.name}</TitleText>
         </LoginButton>
     );
 }

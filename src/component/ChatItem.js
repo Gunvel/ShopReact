@@ -9,11 +9,11 @@ import { useNavigate } from 'react-router-dom'
  * @param {any} param0 Пропсы компонента
  * @returns Компонент элемента списка чатов
  */
-function ChatItem({ chatName, login, messageCount, onRemove }) {
+function ChatItem({ chatId, chatName, messageCount, onRemove }) {
     const navigate = useNavigate();
 
-    const redirect = (chatName, login) => {
-        navigate(`${chatName}/${login}`);
+    const redirect = (id) => {
+        navigate(`${id}`);
     }
 
     return (
@@ -27,7 +27,7 @@ function ChatItem({ chatName, login, messageCount, onRemove }) {
                     <DeleteIcon />
                 </IconButton>
             }>
-            <ListItemButton onClick={() => redirect(chatName, login)}>
+            <ListItemButton onClick={() => redirect(chatId)}>
                 <ListItemIcon>
                     <Badge badgeContent={messageCount} color="primary">
                         <MailIcon color="action" />

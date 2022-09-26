@@ -5,7 +5,12 @@ import SendIcon from '@mui/icons-material/Send';
 import MessageItem from "./MessageItem";
 import Message from "../object/Message";
 import { MessagerContainer, Header, TitleText, MessagesStack, TextFieldComplited } from './stylized';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from "react-redux";
+import { userSelector } from "../store/reducer/userReducer/userSelector";
+import { chatsSelector } from "../store/reducer/chatsReducer/chatsSelector";
+import { messagesSelector } from "../store/reducer/messagesReducer/messagesSelector";
+import { ADD_MESSAGE } from "../store/actionType";
 
 /**
  * Компонент чата
@@ -38,19 +43,53 @@ function Messanger() {
      * Сслыка на поле ввода (для автофокуса)
      */
     const refInput = useRef();
-    /**
-     * Состояние списка сообщений
-     */
-    const [messageList, setMessageList] = useState([]);
+
     /**
      * Состояние вводимого текста
      */
     const [textState, setTextState] = useState('');
 
     /**
+     * Пользователь
+     */
+    const user = useSelector(userSelector);
+
+    /**
      * Параметры строки запроса
      */
-    const pr = useParams();
+    const { id } = useParams();
+
+    /**
+     * Список чатов
+     */
+    const chats = useSelector(chatsSelector);
+    /**
+     * Выбранный чат
+     */
+    const currentChat = chats.find(ch => ch.id === +id);
+
+    /**
+     * Список сообщений
+     */
+    const messageList = useSelector(messagesSelector);
+    /**
+     * Список сообщений выбранного чата
+     */
+    const chatMessages = messageList.filter((ms) => {
+        if (!id) return true;
+
+        return ms.chatId === +id;
+    });
+
+    /**
+     * Отправитель задачь в redux
+     */
+    const dispatch = useDispatch();
+
+    /**
+     * Функция навигации
+     */
+    const navigate = useNavigate();
 
     /**
      * Эффекты при изменении списка сообщений
@@ -58,7 +97,7 @@ function Messanger() {
     useEffect(() => {
         refWindow.current.scrollTop = refWindow.current.scrollHeight;
 
-        if (messageList.length > 0 && messageList[messageList.length - 1].author === pr.login) {
+        if (messageList.length > 0 && messageList[messageList.length - 1].author === user.name) {
             let timeoutId = setTimeout(() => {
                 sendMessage(botName, botMessage);
             }, delaySendMS);
@@ -68,13 +107,21 @@ function Messanger() {
     }, [messageList]);
 
     /**
+     * При изменении чатов, для проверки существования выбранного
+     */
+    useEffect(() => {
+        if (!currentChat)
+            navigate('error');
+    }, [chats]);
+
+    /**
      * Обработчик submit формы
      * @param {SubmitEvent} event Аргумент события submit формы
      */
     const formSubmit = (event) => {
         event.preventDefault();
 
-        if (sendMessage(pr.login, textState)) {
+        if (sendMessage(user.name, textState)) {
             setTextState('');
             setInputFocus(refInput.current);
         }
@@ -95,9 +142,14 @@ function Messanger() {
      * @returns true - если сообщение отправлено, false - иначе
      */
     const sendMessage = (author, message) => {
-        if (message && message.length > 0 && message.trim()) {
-            let mess = new Message(author, message);
-            setMessageList(prevState => [...prevState, mess]);
+        if (message && message.length > 0 && message.trim() && id) {
+            let mess = new Message(author, message, +id);
+
+            dispatch({
+                type: ADD_MESSAGE,
+                payload: mess
+            });
+
             return true;
         }
 
@@ -114,17 +166,17 @@ function Messanger() {
     return (
         <MessagerContainer>
             <Header>
-                <TitleText> {pr.chatName} </TitleText>
+                <TitleText>{currentChat ? currentChat.chatName : 'Chat'}</TitleText>
             </Header>
 
             <MessagesStack ref={refWindow}>
-                {messageList.map(
+                {chatMessages.map(
                     mess =>
                         <MessageItem
                             key={mess.id}
                             author={mess.author}
                             message={mess.message}
-                            currentAuthor={pr.login === mess.author} />)}
+                            currentAuthor={user.name === mess.author} />)}
             </MessagesStack>
 
             <form ref={refForm} onSubmit={formSubmit}>

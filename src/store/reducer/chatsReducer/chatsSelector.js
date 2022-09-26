@@ -1,0 +1,1 @@
+export const chatsSelector = (state) => state.listChats.chats;
