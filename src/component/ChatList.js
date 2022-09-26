@@ -6,21 +6,24 @@ import AddChatDialog from "./AddChatDialog";
 import RemoveChatDialog from "./RemoveChatDialog";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { ChatListContainer, ListChats } from './stylized';
+import { useSelector, useDispatch } from "react-redux";
+import { ADD_CHAT, REMOVE_CHAT } from "../store/actionType";
+import { chatsSelector } from "../store/reducer/chatsReducer/chatsSelector";
 
 /**
  * Компонент списка чатов
  * @returns Компонент чата
  */
-function ChatList({ login }) {
+function ChatList() {
     /**
-     * Состояние списка чатов
+     * Список чатов
      */
-    const [chats, setChats] = useState([
-        new Chat('Chat with Ivan'),
-        new Chat('Custom chat'),
-        new Chat('Party time'),
-        new Chat('Super CHAT')
-    ]);
+    const chats = useSelector(chatsSelector);
+
+    /**
+     * Отправитель задачь в redux
+     */
+    const dispatch = useDispatch();
 
     /**
      * Состояние демонстрации окна добавления чата
@@ -50,7 +53,11 @@ function ChatList({ login }) {
      */
     const addChat = (name) => {
         let newChat = new Chat(name);
-        setChats(prevState => [...prevState, newChat]);
+
+        dispatch({
+            type: ADD_CHAT,
+            payload: newChat
+        });
 
         setAddDialogView(false);
     };
@@ -65,8 +72,10 @@ function ChatList({ login }) {
     };
 
     const removeChat = () => {
-        let filtred = chats.filter(ch => ch.id !== chatToDelete.id);
-        setChats(filtred);
+        dispatch({
+            type: REMOVE_CHAT,
+            payload: chatToDelete.id
+        });
 
         setRemoveDialogView(false);
         setChatToDelete(null);
@@ -84,8 +93,8 @@ function ChatList({ login }) {
                     ch =>
                         <ChatItem
                             key={ch.id}
+                            chatId={ch.id}
                             chatName={ch.chatName}
-                            login={login}
                             messageCount={ch.messageCount}
                             onRemove={() => callRemoveChatDialog(ch)} />)}
             </ListChats>

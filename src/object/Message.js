@@ -10,11 +10,13 @@ class Message {
      * Конструктор класса сообщения
      * @param {string} author Автор
      * @param {string} message Сообщение
+     * @param {int} chatId Id чата
      */
-    constructor(author, message) {
+    constructor(author, message, chatId) {
         this.id = Message._currentId++;
         this.author = author;
         this.message = message;
+        this.chatId = chatId;
     }
 }
 
