@@ -1,5 +1,5 @@
 import React from "react";
-import { ListItem, IconButton, ListItemButton, ListItemIcon, ListItemText, Badge } from '@mui/material';
+import { ListItem, IconButton, ListItemButton, ListItemIcon, ListItemText, Badge, Tooltip } from '@mui/material';
 import MailIcon from '@mui/icons-material/Mail';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useNavigate } from 'react-router-dom'
@@ -23,18 +23,22 @@ function ChatItem({ chatId, chatName, messageCount, onRemove }) {
             paddingTop: '0',
         }}
             secondaryAction={
-                <IconButton edge="end" aria-label="delete" onClick={onRemove}>
-                    <DeleteIcon />
-                </IconButton>
+                <Tooltip title={`Remove "${chatName}"`} arrow disableInteractive>
+                    <IconButton edge="end" aria-label="delete" onClick={onRemove}>
+                        <DeleteIcon />
+                    </IconButton>
+                </Tooltip>
             }>
-            <ListItemButton onClick={() => redirect(chatId)}>
-                <ListItemIcon>
-                    <Badge badgeContent={messageCount} color="primary">
-                        <MailIcon color="action" />
-                    </Badge>
-                </ListItemIcon>
-                <ListItemText primary={chatName} />
-            </ListItemButton>
+            <Tooltip title={`Open "${chatName}"`} arrow disableInteractive>
+                <ListItemButton onClick={() => redirect(chatId)}>
+                    <ListItemIcon>
+                        <Badge badgeContent={messageCount} color="primary">
+                            <MailIcon color="action" />
+                        </Badge>
+                    </ListItemIcon>
+                    <ListItemText primary={chatName} />
+                </ListItemButton>
+            </Tooltip>
         </ListItem>
     );
 }

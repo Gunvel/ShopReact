@@ -7,7 +7,8 @@ const AppContainer = styled('main')(({ theme }) => ({
     height: '100vh',
     margin: theme.spacing(0),
     padding: theme.spacing(2),
-    boxSizing: 'border-box'
+    boxSizing: 'border-box',
+    background: "radial-gradient(circle at center, #fbfcfe , #f3f6f7)"
 }));
 
 export default AppContainer;

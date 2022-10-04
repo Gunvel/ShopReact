@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { IconButton } from '@mui/material';
+import { IconButton, Tooltip } from '@mui/material';
 import Chat from "../object/Chat";
 import ChatItem from "./ChatItem";
 import AddChatDialog from "./AddChatDialog";
@@ -109,14 +109,16 @@ function ChatList() {
                             onRemove={() => callRemoveChatDialog(ch)} />)}
             </ListChats>
 
-            <IconButton
-                onClick={callAddChatDialog}
-                color='primary'
-                aria-label="Add new chat"
-                size="large"
-                sx={{ justifySelf: 'flex-start', marginLeft: '10px' }}>
-                <AddCircleIcon fontSize="large" />
-            </IconButton>
+            <Tooltip title="Сreate a chat" placement="top" arrow disableInteractive>
+                <IconButton
+                    onClick={callAddChatDialog}
+                    color='primary'
+                    aria-label="Add new chat"
+                    size="large"
+                    sx={{ justifySelf: 'flex-start', marginLeft: '10px' }}>
+                    <AddCircleIcon fontSize="large" />
+                </IconButton>
+            </Tooltip>
 
             <AddChatDialog
                 openDialog={addDialogView}

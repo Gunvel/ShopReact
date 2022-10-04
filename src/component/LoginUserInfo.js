@@ -1,5 +1,6 @@
 import React from "react";
-import { Avatar } from '@mui/material';
+import { Avatar, Stack, IconButton, Tooltip } from '@mui/material';
+import LogoutIcon from '@mui/icons-material/Logout';
 import { LoginButton, TitleText } from './stylized';
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useSelector } from "react-redux";
@@ -91,9 +92,22 @@ function LoginUserInfo() {
     };
 
     return (
-        <LoginButton startIcon={<Avatar {...stringAvatar(user.name)} />} onClick={() => openProfile()}>
-            <TitleText>{user.name}</TitleText>
-        </LoginButton>
+        <Stack
+            width='100%'
+            direction='row'
+            justifyContent="space-between">
+            <Tooltip title="Open profile" arrow disableInteractive>
+                <LoginButton startIcon={<Avatar {...stringAvatar(user.name)} />} onClick={() => openProfile()}>
+                    <TitleText>{user.name}</TitleText>
+                </LoginButton>
+            </Tooltip>
+
+            <Tooltip title="Logout" arrow disableInteractive>
+                <IconButton color="secondary" aria-label="delete">
+                    <LogoutIcon />
+                </IconButton>
+            </Tooltip>
+        </Stack>
     );
 }
 
