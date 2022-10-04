@@ -11,16 +11,27 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
   <Provider store={store}>
-    <PersistGate loading={null} persistor={persistor}>
-      <Router>
-        {/* <React.StrictMode>  Не дает выставлять autoFocus для TextField в модальном окне (https://github.com/mui/material-ui/issues/33004) */}
-        <App />
-        {/* </React.StrictMode> */}
-      </Router >
-    </PersistGate>
+    <Router>
+      {/* <React.StrictMode>  Не дает выставлять autoFocus для TextField в модальном окне (https://github.com/mui/material-ui/issues/33004) */}
+      <App />
+      {/* </React.StrictMode> */}
+    </Router >
   </Provider>
 
 );
+
+// root.render(
+//   <Provider store={store}>
+//     <PersistGate loading={null} persistor={persistor}>
+//       <Router>
+//         {/* <React.StrictMode>  Не дает выставлять autoFocus для TextField в модальном окне (https://github.com/mui/material-ui/issues/33004) */}
+//         <App />
+//         {/* </React.StrictMode> */}
+//       </Router >
+//     </PersistGate>
+//   </Provider>
+
+// );
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

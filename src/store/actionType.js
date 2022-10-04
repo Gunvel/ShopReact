@@ -1,3 +1,6 @@
 export const ADD_CHAT = 'ADD_CHAT';
 export const REMOVE_CHAT = 'REMOVE_CHAT';
 export const ADD_MESSAGE = 'ADD_MESSAGE';
+export const GET_COMMENTS = 'GET_COMMENTS';
+export const GET_COMMENTS_LOADING = 'GET_COMMENTS_LOADING';
+export const GET_COMMENTS_ERROR = 'GET_COMMENTS_ERROR';
