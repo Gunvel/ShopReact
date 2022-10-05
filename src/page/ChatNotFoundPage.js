@@ -5,7 +5,7 @@ import chatIMG from '../assets/img/chatLost.png'
 
 function ChatNotFoundPage() {
     return (
-        <Box sx={{ textAlign: 'center', margin: 'auto', padding: (theme) => theme.spacing(10) }}>
+        <Box sx={{ textAlign: 'center', margin: '10% auto', padding: (theme) => theme.spacing(10) }}>
             <img
                 width={'60%'}
                 src={chatIMG}
