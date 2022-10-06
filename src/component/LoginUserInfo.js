@@ -1,10 +1,11 @@
-import React from "react";
-import { Avatar, Stack, IconButton, Tooltip } from '@mui/material';
+import { useEffect } from "react";
+import { Avatar, Stack, IconButton, Tooltip, Backdrop, CircularProgress } from '@mui/material';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { LoginButton, TitleText } from './stylized';
 import { useNavigate, useLocation } from 'react-router-dom'
-import { useSelector } from "react-redux";
-import { userSelector } from "../store/reducer/userReducer/userSelector";
+import { useSelector, useDispatch } from "react-redux";
+import { userSelector, userLoadingSelector, userErrorSelector } from "../store/reducer/userReducer/userSelector";
+import { logoutProgress } from "../store/reducer/userReducer/userReducer";
 
 /**
  * Преобразует текст в цвет
@@ -69,16 +70,24 @@ function LoginUserInfo() {
      * Пользователь
      */
     const user = useSelector(userSelector);
+    const error = useSelector(userErrorSelector);
+    const loading = useSelector(userLoadingSelector);
 
     /**
      * Локация приложения
      */
     const location = useLocation();
-
+    const dispatch = useDispatch();
     /**
      * Функция навигации
      */
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!user) {
+            navigate('/');
+        }
+    }, [user])
 
     /**
      * Обработчик открытия профиля
@@ -91,22 +100,33 @@ function LoginUserInfo() {
         });
     };
 
+    const logoutHandler = (e) => {
+        e.preventDefault();
+
+        dispatch(logoutProgress());
+    };
+
     return (
         <Stack
             width='100%'
             direction='row'
             justifyContent="space-between">
             <Tooltip title="Open profile" arrow disableInteractive>
-                <LoginButton startIcon={<Avatar {...stringAvatar(user.name)} />} onClick={() => openProfile()}>
-                    <TitleText>{user.name}</TitleText>
+                <LoginButton startIcon={<Avatar {...stringAvatar(user?.displayName)} />} onClick={() => openProfile()}>
+                    <TitleText>{user?.displayName}</TitleText>
                 </LoginButton>
             </Tooltip>
 
             <Tooltip title="Logout" arrow disableInteractive>
-                <IconButton color="secondary" aria-label="delete">
+                <IconButton color="secondary" aria-label="delete" onClick={logoutHandler}>
                     <LogoutIcon />
                 </IconButton>
             </Tooltip>
+            <Backdrop
+                sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                open={loading}>
+                <CircularProgress color="inherit" />
+            </Backdrop>
         </Stack>
     );
 }

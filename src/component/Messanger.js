@@ -97,7 +97,7 @@ function Messanger() {
     useEffect(() => {
         refWindow.current.scrollTop = refWindow.current.scrollHeight;
 
-        if (messageList.length > 0 && messageList[messageList.length - 1].author === user.name) {
+        if (messageList.length > 0 && messageList[messageList.length - 1].author === user?.displayName) {
             let timeoutId = setTimeout(() => {
                 sendMessage(botName, botMessage);
             }, delaySendMS);
@@ -121,7 +121,7 @@ function Messanger() {
     const formSubmit = (event) => {
         event.preventDefault();
 
-        if (sendMessage(user.name, textState)) {
+        if (sendMessage(user?.displayName, textState)) {
             setTextState('');
             setInputFocus(refInput.current);
         }
@@ -176,7 +176,7 @@ function Messanger() {
                             key={mess.id}
                             author={mess.author}
                             message={mess.message}
-                            currentAuthor={user.name === mess.author} />)}
+                            currentAuthor={user?.displayName === mess.author} />)}
             </MessagesStack>
 
             <form ref={refForm} onSubmit={formSubmit}>
