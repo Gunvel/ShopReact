@@ -33,6 +33,7 @@ function AddChatDialog({ openDialog, onAdd, onCancel, ...props }) {
                     Enter the name of the chat.
                 </DialogContentText>
                 <TextFieldComplited
+                    data-testid="input-chatName"
                     autoFocus
                     value={newChatName}
                     onChange={(e) => setNewChatName(e.target.value)}
