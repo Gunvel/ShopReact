@@ -4,7 +4,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
 import { Theme } from './stylized';
 import { Routes, Route } from 'react-router-dom';
-import { Layout, MainPage, ChatPage, NotFoundPage, ProfileDialogPage, CounterPage } from '../page';
+import { Layout, MainPage, ChatPage, NotFoundPage, ProfileDialogPage, CounterPage, CommentsPage } from '../page';
 
 /**
  * Приложение
@@ -24,6 +24,7 @@ function App() {
                         <Route exact path={"/m/profile"} element={<ProfileDialogPage />} />
                         <Route exact path={'/chat/*'} element={<ChatPage />} />
                         <Route exact path={'/counter'} element={<CounterPage />} />
+                        <Route exact path={'/comments'} element={<CommentsPage />} />
                         <Route path={'*'} element={<NotFoundPage />} />
                     </Route>
                 </Routes>

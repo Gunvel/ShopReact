@@ -1,4 +1,5 @@
 import ChatPage from "./ChatPage";
+import CommentsPage from "./CommentsPage";
 import CounterPage from "./CounterPage";
 import Layout from "./Layout";
 import MainPage from "./MainPage";
@@ -11,5 +12,6 @@ export {
     MainPage,
     NotFoundPage,
     ProfileDialogPage,
-    CounterPage
+    CounterPage,
+    CommentsPage
 }
