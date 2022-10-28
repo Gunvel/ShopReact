@@ -2,6 +2,8 @@ import * as React from 'react';
 import { Messanger, ChatList, LoginUserInfo } from '../component';
 import { ContentContainer, UserChatListContainer, Header } from '../component/stylized';
 import { Routes, Route, Outlet } from 'react-router-dom';
+import SelectChatPage from './SelectChatPage';
+import ChatNotFoundPage from "./ChatNotFoundPage";
 
 function ChatPage() {
     return (
@@ -10,7 +12,7 @@ function ChatPage() {
                 <ContentContainer>
                     <UserChatListContainer>
                         <Header>
-                            <LoginUserInfo/>
+                            <LoginUserInfo />
                         </Header>
                         <ChatList />
                     </UserChatListContainer>
@@ -18,9 +20,9 @@ function ChatPage() {
                     <Outlet />
                 </ContentContainer>
             }>
-                <Route index element={<div>Выберите чат</div>} />
+                <Route index element={<SelectChatPage />} />
                 <Route path={'/:id'} element={<Messanger />} />
-                <Route path={'*'} element={<div>Чат не найден</div>} />
+                <Route path={'*'} element={<ChatNotFoundPage />} />
             </Route>
         </Routes >
     );
