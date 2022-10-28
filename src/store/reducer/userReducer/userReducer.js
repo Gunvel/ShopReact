@@ -1,6 +1,7 @@
 import * as ActionType from '../../actionType';
 import * as Action from '../../action';
 import { auth } from '../../../service/firebase';
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "firebase/auth";
 
 const initialState = {
     loading: false,
@@ -50,7 +51,7 @@ export const registerProgress = (email, password, displayName) => {
         dispatch(Action.registerStart());
 
         try {
-            const userCredetial = await auth.createUserWithEmailAndPassword(email, password);
+            const userCredetial = await createUserWithEmailAndPassword(auth, email, password);
             await userCredetial.user.updateProfile({
                 displayName: displayName
             });
@@ -68,7 +69,8 @@ export const loginProgress = (email, password) => {
         dispatch(Action.loginStart());
 
         try {
-            const userCredetial = await auth.signInWithEmailAndPassword(email, password);
+            console.log(auth);
+            const userCredetial = await signInWithEmailAndPassword(auth, email, password);
             dispatch(Action.loginSuccess(userCredetial.user));
 
         } catch (ex) {
@@ -82,7 +84,7 @@ export const logoutProgress = () => {
         dispatch(Action.logoutStart());
 
         try {
-            await auth.signOut();
+            await signOut(auth);
             dispatch(Action.logoutSuccess());
 
         } catch (ex) {
